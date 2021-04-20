@@ -6,7 +6,7 @@ const app = express();
 const server = require('http').createServer(app);
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ server: server });
+const wss = new WebSocket.Server({ server: server, path: "/livestream" });
 
 const users = []
 
@@ -25,7 +25,7 @@ wss.on('connection', function connection(ws, request, clientx) {
     users.push({ userId, ws })
 
     console.log((new Date()) + ' Received a new client from origin ' + request.headers.origin)
-    ws.send(JSON.stringify({message: 'Welcome New client' , "type":"connection"}));
+    ws.send(JSON.stringify({ message: 'Welcome New client', "type": "connection" }));
 
     ws.on('message', function incoming(msg) {
         let message = JSON.parse(msg)
